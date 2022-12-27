@@ -317,6 +317,20 @@ $CONFIG = [
 'http.cookie.samesite' => 'Strict',
 
 /**
+ * Define how to relax same site cookie settings for remember login
+ * Possible values: `Strict`, `Lax` or `None`.
+ * Setting the same site cookie to `None` is necessary in case of OpenID Connect.
+ * For more information about the impact of the values see:
+ * https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie/SameSite#values and
+ * https://web.dev/schemeful-samesite/
+ *
+ * * Use 'strict' whenever possible
+ * * If necessary relax to 'lax'
+ * * Use 'none' if it needs to be relaxed even further
+ */
+'http.cookie.remember.login.samesite' => 'Strict',
+
+/**
  * Define the directory where the skeleton files are located
  * These files will be copied to the data directory of new users.
  * Set this to the empty string if you do not want to copy any skeleton files.
