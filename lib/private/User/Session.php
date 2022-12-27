@@ -1224,13 +1224,14 @@ class Session implements IUserSession, Emitter {
 		}
 		$secureCookie = OC::$server->getRequest()->getServerProtocol() === 'https';
 		$expires = $this->timeFactory->getTime() + OC::$server->getConfig()->getSystemValue('remember_login_cookie_lifetime', 60 * 60 * 24 * 15);
+		$samesite = OC::$server->getConfig()->getSystemValue('http.cookie.remember.login.samesite', 'Strict');
 		$cookieOpts = [
 			'expires' => $expires,
 			'path' => $webRoot,
 			'domain' => '',
 			'secure' => $secureCookie,
 			'httponly' => true,
-			'samesite' => 'strict',
+			'samesite' => $samesite,
 		];
 		\setcookie('oc_username', $username, $cookieOpts);
 		\setcookie('oc_token', $token, $cookieOpts);
@@ -1251,13 +1252,14 @@ class Session implements IUserSession, Emitter {
 
 		unset($_COOKIE['oc_username'], $_COOKIE['oc_token'], $_COOKIE['oc_remember_login']); //TODO: DI
 
+		$samesite = OC::$server->getConfig()->getSystemValue('http.cookie.remember.login.samesite', 'Strict');
 		$cookieOpts = [
 			'expires' => $this->timeFactory->getTime() - 3600,
 			'path' => $webRoot,
 			'domain' => '',
 			'secure' => $secureCookie,
 			'httponly' => true,
-			'samesite' => 'strict',
+			'samesite' => $samesite,
 		];
 		\setcookie('oc_username', '', $cookieOpts);
 		\setcookie('oc_token', '', $cookieOpts);
